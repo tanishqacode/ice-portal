@@ -59,6 +59,11 @@ const pageDescriptions = {
     description:
       "A space for student resources, projects, research collaboration and academic opportunities.",
   },
+  Alumini:{
+    title:"Alumini",
+    description:
+    "Connect to your Seniors for guidance and help regarding any type of academic help."
+  },
   "News & Events": {
     title: "News & Events",
     description:
