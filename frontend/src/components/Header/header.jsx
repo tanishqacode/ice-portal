@@ -7,6 +7,7 @@ import {
   Search,
   CircleUserRound,
   LogOut,
+  UserRound,
 } from "lucide-react";
 
 import logo from "./images/logo.jpeg";
@@ -32,9 +33,19 @@ export default function Header({
   const [profileOpen, setProfileOpen] = useState(false);
 
   const navigate = (item) => {
-    onNavigate(item);
+    onNavigate?.(item);
     setMenuOpen(false);
     setProfileOpen(false);
+  };
+
+  const openProfile = () => {
+    navigate("Profile");
+  };
+
+  const logout = () => {
+    setProfileOpen(false);
+    setMenuOpen(false);
+    onLogout?.();
   };
 
   return (
@@ -42,8 +53,12 @@ export default function Header({
       {/* Top strip */}
       <div className="relative z-50 w-full bg-[#102f50] px-4 py-2 text-xs text-white sm:px-8 lg:px-10">
         <div className="flex w-full flex-wrap items-center justify-between gap-2">
-          <span>
+          <span className="hidden sm:inline">
             Dr. B. R. Ambedkar National Institute of Technology Jalandhar
+          </span>
+
+          <span className="sm:hidden">
+            NIT Jalandhar
           </span>
 
           <div className="flex items-center gap-3 sm:gap-4">
@@ -57,61 +72,79 @@ export default function Header({
 
             <span className="text-white/40">|</span>
 
-           {!currentUser ? (
-  <button
-    type="button"
-    onClick={onAuthClick}
-    className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-[#123d70] hover:bg-blue-50"
-  >
-    Login / Sign Up
-  </button>
-) : (
-  <div className="flex items-center gap-3">
-    <div className="hidden text-right sm:block">
-      <p className="text-sm font-semibold">
-        {currentUser.displayName}
-      </p>
-      <p className="text-xs capitalize text-slate-500">
-        {currentUser.role}
-      </p>
-    </div>
+            {!currentUser ? (
+              <button
+                type="button"
+                onClick={onAuthClick}
+                className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-[#123d70] hover:bg-blue-50"
+              >
+                Login / Sign Up
+              </button>
+            ) : (
+              <div className="relative flex items-center gap-3">
+                <div className="hidden text-right sm:block">
+                  <p className="text-sm font-semibold text-white">
+                    {currentUser.displayName || currentUser.name || "User"}
+                  </p>
 
-    <button
-      type="button"
-      onClick={() => setProfileOpen((open) => !open)}
-      aria-label="Open profile menu"
-      className="rounded-full p-2 text-[#123d70] hover:bg-blue-50"
-    >
-      <CircleUserRound size={28} />
-    </button>
+                  <p className="text-xs capitalize text-blue-100">
+                    {currentUser.role}
+                  </p>
+                </div>
 
-    {profileOpen && (
-      <div className="absolute right-4 top-20 z-50 w-56 rounded-xl border border-slate-200 bg-white p-3 shadow-lg">
-        <p className="font-semibold text-slate-800">
-          {currentUser.displayName}
-        </p>
-        <p className="mt-1 break-all text-xs text-slate-500">
-          {currentUser.email}
-        </p>
-        <p className="mt-1 text-xs capitalize text-slate-500">
-          {currentUser.role}
-        </p>
+                {/* Profile icon */}
+                <button
+                  type="button"
+                  onClick={() => setProfileOpen((open) => !open)}
+                  aria-label="Open profile menu"
+                  aria-expanded={profileOpen}
+                  className="rounded-full p-2 text-blue-200 transition hover:bg-white/10 hover:text-white"
+                >
+                  <CircleUserRound size={30} />
+                </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setProfileOpen(false);
-            onLogout();
-          }}
-          className="mt-3 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50"
-        >
-          <LogOut size={16} />
-          Logout
-        </button>
-      </div>
-    )}
-  </div>
-)}
+                {/* Profile dropdown */}
+                {profileOpen && (
+                  <div className="absolute right-0 top-full mt-3 w-64 rounded-xl border border-slate-200 bg-white p-3 text-slate-800 shadow-xl">
+                    <div className="border-b border-slate-100 px-3 pb-3">
+                      <p className="font-semibold">
+                        {currentUser.displayName ||
+                          currentUser.name ||
+                          "User"}
+                      </p>
+
+                      <p className="mt-1 break-all text-xs text-slate-500">
+                        {currentUser.email || currentUser.identifier || ""}
+                      </p>
+
+                      <p className="mt-1 text-xs capitalize text-slate-500">
+                        {currentUser.role}
+                      </p>
+                    </div>
+
+                    {/* View Profile */}
+                    <button
+                      type="button"
+                      onClick={openProfile}
+                      className="mt-2 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-[#123b62]"
+                    >
+                      <UserRound size={17} />
+                      View Profile
+                    </button>
+
+                    {/* Logout */}
+                    <button
+                      type="button"
+                      onClick={logout}
+                      className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                    >
+                      <LogOut size={17} />
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -231,16 +264,36 @@ export default function Header({
                 </button>
               ))}
 
-              <button
-                type="button"
-                onClick={() => {
-                  setMenuOpen(false);
-                  onAuthClick?.();
-                }}
-                className="rounded-lg bg-amber-50 px-3 py-3 text-left text-sm font-semibold text-[#123b62] hover:bg-amber-100"
-              >
-                {currentUser ? "Account" : "Login / Sign up"}
-              </button>
+              {currentUser && (
+                <button
+                  type="button"
+                  onClick={openProfile}
+                  className="rounded-lg bg-blue-50 px-3 py-3 text-left text-sm font-semibold text-[#123b62] hover:bg-blue-100"
+                >
+                  View Profile
+                </button>
+              )}
+
+              {currentUser ? (
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="rounded-lg bg-red-50 px-3 py-3 text-left text-sm font-semibold text-red-600 hover:bg-red-100"
+                >
+                  Logout
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    onAuthClick?.();
+                  }}
+                  className="rounded-lg bg-amber-50 px-3 py-3 text-left text-sm font-semibold text-[#123b62] hover:bg-amber-100"
+                >
+                  Login / Sign Up
+                </button>
+              )}
             </div>
           </nav>
         )}
