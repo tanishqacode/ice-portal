@@ -17,7 +17,7 @@ const sidebarItems = [
   { label: "Academics", icon: BookOpen },
   { label: "Research & Publications", icon: FlaskConical },
   { label: "Students", icon: GraduationCap },
-  {label:"Alumini", icon:GraduationCap},
+  {label:"Alumni", icon:GraduationCap},
   { label: "News & Events", icon: Newspaper },
   { label: "Contact Us", icon: Mail },
 ];

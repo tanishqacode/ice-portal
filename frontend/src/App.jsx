@@ -12,6 +12,7 @@ import Research from "./components/pages/Research";
 import Students from "./components/pages/Students";
 import Contact from "./components/pages/Contact";
 import SectionPage from "./components/pages/SectionPage";
+import Alumni from "./components/pages/Alumni";
 
 const pageComponents = {
   Home,
@@ -21,8 +22,10 @@ const pageComponents = {
   Students,
   Contact,
   "News & Events": SectionPage,
-  Alumini: SectionPage,
+  // Alumini: SectionPage,
   Academics,
+  Alumni,
+  
 };
 
 const announcements = [
