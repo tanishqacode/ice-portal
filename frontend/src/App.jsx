@@ -17,12 +17,12 @@ const pageComponents = {
   Home,
   About,
   Faculty,
-  Academics,
   Research,
   Students,
   Contact,
   "News & Events": SectionPage,
   Alumini: SectionPage,
+  Academics,
 };
 
 const announcements = [

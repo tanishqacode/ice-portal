@@ -22,6 +22,7 @@ const sidebarItems = [
   { label: "Contact Us", icon: Mail },
 ];
 
+
 const pageMapping = {
   Home: "Home",
   "About Department": "About",
@@ -29,9 +30,11 @@ const pageMapping = {
   Academics: "Academics",
   "Research & Publications": "Research",
   Students: "Students",
+  Alumni: "Alumni",
   "News & Events": "News & Events",
   "Contact Us": "Contact",
 };
+
 
 export default function Sidebar({ activePage, onNavigate }) {
   return (
