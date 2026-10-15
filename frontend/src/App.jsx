@@ -16,6 +16,7 @@ import Students from "./components/pages/Students";
 import Contact from "./components/pages/Contact";
 import Profile from "./components/pages/Profile/profile";
 import SectionPage from "./components/pages/SectionPage";
+import Alumni from "./components/pages/Alumni";
 
 
 const pageComponents = {
@@ -28,7 +29,10 @@ const pageComponents = {
   Contact,
   Profile,
   "News & Events": SectionPage,
-  Alumini: SectionPage,
+  // Alumini: SectionPage,
+  Academics,
+  Alumni,
+  
 };
 
 const pageDescriptions = {
